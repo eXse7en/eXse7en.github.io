@@ -7,12 +7,13 @@ function fetchCSV(url) {
     .then(csvText => {
       const rows = csvText.trim().split('\n').slice(1);
       const rawData = rows.map(row => {
-        const [code, description, parent] = row.split(',');
+        const [code, description, parent, details] = row.split(',');
         return {
-          code: code.trim(),
-          description: description.trim(),
-          parent: (parent || '').trim()
-        };
+  code: code.trim(),
+  description: description.trim(),
+  parent: (parent || '').trim(),
+  details: (details || '').trim()
+};
       });
 
 const obj = {
@@ -24,7 +25,12 @@ const obj = {
 
       const map = {};
       rawData.forEach(item => {
-        map[item.code] = { code: item.code, description: item.description, children: [] };
+        map[item.code] = {
+  code: item.code,
+  description: item.description,
+  details: item.details,
+  children: []
+};
       });
 
       const result = [];
