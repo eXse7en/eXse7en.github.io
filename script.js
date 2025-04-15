@@ -128,8 +128,10 @@ if (item.__autoExpand) {
 function showContent(item) {
   const content = document.getElementById('content');
   content.innerHTML = `
-    <h2>${item.code} - ${item.description}</h2>
-    <p style="margin-top: 1rem;">${item.details || ''}</p>
+    <div class="code-box">
+      <h2>${item.code} - ${item.description}</h2>
+      ${item.details ? `<div class="details"><p>${item.details}</p></div>` : ''}
+    </div>
   `;
 }
 
