@@ -15,6 +15,13 @@ function fetchCSV(url) {
         };
       });
 
+const obj = {
+  code: row[0],
+  description: row[1],
+  parent: row[2] || null,
+  details: row[3] || '',
+};
+
       const map = {};
       rawData.forEach(item => {
         map[item.code] = { code: item.code, description: item.description, children: [] };
@@ -114,7 +121,10 @@ if (item.__autoExpand) {
 
 function showContent(item) {
   const content = document.getElementById('content');
-  content.innerHTML = `<h2>${item.code}</h2><p>${item.description}</p>`;
+  content.innerHTML = `
+    <h2>${item.code} - ${item.description}</h2>
+    <p style="margin-top: 1rem;">${item.details || ''}</p>
+  `;
 }
 
 function searchICD(keyword) {
