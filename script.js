@@ -7,17 +7,18 @@ function fetchCSV(url) {
     .then(csvText => {
       const rows = csvText.trim().split('\n').slice(1);
       const rawData = rows.map(row => {
-        const [code, description, parent] = row.split(',');
+        const [code, description, parent, details] = row.split(',');
         return {
           code: code.trim(),
           description: description.trim(),
-          parent: (parent || '').trim()
+          parent: (parent || '').trim(),
+          details: (details || '').trim()
         };
       });
 
       const map = {};
       rawData.forEach(item => {
-        map[item.code] = { code: item.code, description: item.description, children: [] };
+        map[item.code] = { code: item.code, description: item.description, details: item.details, children: [] };
       });
 
       const result = [];
@@ -114,7 +115,19 @@ if (item.__autoExpand) {
 
 function showContent(item) {
   const content = document.getElementById('content');
-  content.innerHTML = `<h2>${item.code}</h2><p>${item.description}</p>`;
+  content.innerHTML = `
+    <div class="code-box">
+      <h2>${item.code} - ${item.description}</h2>
+      ${item.details ? `<div class="details"><p>${item.details}</p></div>` : ''}
+    </div>
+  `;
+  
+  // ⬆️ Scroll ke atas halaman secara halus
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+  
 }
 
 function searchICD(keyword) {
@@ -122,11 +135,14 @@ function searchICD(keyword) {
   const lowerKeyword = keyword.toLowerCase();
 
   icdData.forEach(item => {
-    const matchParent = item.code.toLowerCase().includes(lowerKeyword) || item.description.toLowerCase().includes(lowerKeyword);
+    const matchParent = item.code.toLowerCase().includes(lowerKeyword) || 
+    item.description.toLowerCase().includes(lowerKeyword)|| 
+    item.details.toLowerCase().includes(lowerKeyword);
 
     const matchingChildren = (item.children || []).filter(child =>
       child.code.toLowerCase().includes(lowerKeyword) ||
-      child.description.toLowerCase().includes(lowerKeyword)
+      child.description.toLowerCase().includes(lowerKeyword) ||
+      child.details.toLowerCase().includes(lowerKeyword)
     );
 
     if (matchParent) {

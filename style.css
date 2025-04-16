@@ -8,7 +8,7 @@ body {
 }
 
 header {
-  background-color: #0078d4;
+  background-color: #34de69;
   color: white;
   padding: 1em;
   display: flex;
@@ -63,19 +63,4 @@ main {
 
 .code-main.expanded::before {
   transform: rotate(90deg);
-}
-
-.code-box {
-  background-color: #f9f9f9;
-  border-left: 4px solid #3498db;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 6px;
-}
-
-.details {
-  margin-top: 1rem;
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.6;
 }
